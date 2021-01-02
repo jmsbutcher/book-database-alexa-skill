@@ -20,5 +20,5 @@ I thus broke down the project into 3 parts:
 
 1. Create a good database schema for my book list
 2. Put the database up on AWS RDS
-3. Create the Alexa Skill
+3. Create the Alexa Skill 
 
