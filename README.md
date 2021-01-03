@@ -1,8 +1,12 @@
 # book-database-alexa-skill
 
+### An Amazon Alexa skill that manages a MySQL database of books I've read hosted on AWS RDS
+
 ---
 
 #### Technologies/Skills Used: <b>Python, MySQL, AWS RDS, AWS Lambda, Alexa Skill Development</b>
+
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/AlexaConversation1.png">
 
 <p>For years now, I've been keeping track of all the books I've read. I like to have a record handy of how many times I've read a book, when was the first time I read it, how many books I've read in a given year, and so on. </p>
 <p>And all this time I used a (you guessed it) manually-updated Excel sheet.</p>
