@@ -26,3 +26,8 @@ I thus broke down the project into 3 parts:
 2. Put the database up on AWS RDS
 3. Create the Alexa Skill 
 
+## Part 1: MySQL Database
+<p>The first question was how to structure the data. There was a problem with using only one table, as I had been doing with the Excel sheet. It was simplest to have one row per book - it was a summary; sometimes I only wanted to know if I read a specific book at least once or not.</p>
+<p>But sometimes I also wanted to keep track of specific *readings* of a certain book: the date, the format, where I was, and so on. Trying to keep all this information stuffed into a single row was very clunky.</p>
+So I decided to make **two tables:**
+
