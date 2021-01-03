@@ -31,7 +31,9 @@ I thus broke down the project into 3 parts:
 <p>But sometimes I also wanted to keep track of specific <em>readings</em> of a certain book: the date, the format, where I was, and so on. Trying to keep all this information stuffed into a single row was very clunky.</p>
 
 <br>
-## Before:
+
+### Before:
+
 <img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/old_excel_example1.png">
 <br>
 
@@ -72,11 +74,17 @@ CREATE TABLE read_instances (
 <p>Now I have two different tables perfectly suited for different purposes. One is a summary and one is a detailed account preserving all information.
 
 <br>
-## After:
-Books table
+
+### After:
+
+Books table - high level view
+
 <img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/sql_example_books1.png">
-Read instances table
+
+Read instances table - low level view
+
 <img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/sql_example_readinstances1.png">
+
 <br>
 <br>
 
