@@ -108,12 +108,23 @@ Read instances table - low level view
 <p>I first went to the <a href="https://developer.amazon.com/alexa/console/ask">Alexa Developer Console</a> and created a new skill (after creating an Amazon Developer account.)</p>
 <p>From there the task was to create a custom <em>interaction model.</em> This is the thing that dictates how you're supposed to say things to Alexa, and how she is supposed to say things back to you.</p>
 <p>The things you say (called <em>utterances</em>) activate certain <em>intents</em>. There are built-in intents, such as HelpIntent (activated by saying "Help") or CancelIntent (activated by saying "Never mind."). But you can also create your own custom intents. For example, one of the intents I built for this project was <b>AddReadInstanceIntent</b>, which was activated by saying one of several utterances along the lines of "Add {title} by {author} to my book database."<p>
-<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_interaction2.png" width="400" height="300">
-<p>An intent may require specific information from you in order to do its job. These are called <em>slots</em>, and are indicated in utterances by curly braces. Each slot has a type, which helps Amazon Alexa better understand what you mean to say. For example, I made the {title} slot of type "AMAZON.book", so that when I say "Nineteen Eighty-Four" in the place in the sentence denoted by {title}, Alexa has a better chance of knowing I mean the book by George Orwell, and not the two numbers 19 and 84.</p>
-<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_title_slot.png" width="400" height="700">
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_interaction2.png" width="600" height="300">
+<p>An intent may require specific information from you in order to do its job. These are called <em>slots</em>, and are indicated in utterances by curly braces. Each slot has a type, which helps Amazon Alexa better understand what you mean to say. For example, I made the {title} slot of type <em>AMAZON.book</em>, so that when I say "Nineteen Eighty-Four" in the place in the sentence denoted by {title}, Alexa has a better chance of knowing I mean the book by George Orwell, and not the two numbers 19 and 84.</p>
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_title_slot.png" width="600" height="800">
 
+<br>
 
+<p>Next, I had to write the code "behind the intents" -- the backend. In the Alexa Development Kit, this is called the lambda function. This is the code that Alexa carries out after eliciting an intent and all the information is provided.</p>
+<p>When you create a custom skill, you have the option of having a basic lambda function file set up for you, hosted on the cloud via AWS Lambda, either in Python or in Node.js, or you can provide your own endpoint and backend resources.</p>
+<p>I chose the Alexa-provided Python option. This was especially convenient since the Alexa Developer Console has a Code tab where you can edit the backend code and deploy it with one click.</p>
 
+<br>
+
+<p>At this point I needed to learn how to manage an SQL database through Python code. These two YouTube videos were excellent guides for me:<p>
+- <a href="https://www.youtube.com/watch?v=3vsC05rxZ8c&list=PLwGZ7X2gMChQbGLrYP57YW2S_lrknkw1_&index=45">Tech With Tim  -  Python MySQL Tutorial - Setup & Basic Queries (w/ MySQL Connector)</a>
+- <a href="https://www.youtube.com/watch?v=RerDL93sBdY&list=PLwGZ7X2gMChQbGLrYP57YW2S_lrknkw1_&index=46">KGP Talkie  -  AWS RDS with Python Tutorial | How Connect AWS RDS with Python using PyMySQL</a>
+	
+<p>I learned the ropes of using   by playing around and testing on Spyder (my favorite Python IDE) before trying it out in the Alexa lambda function.</p>
 
 
 
