@@ -105,10 +105,12 @@ Read instances table - low level view
 
 <p>This part was by far the most work. Each step had its own learning curve. But with lots of tinkering, testing, debugging, and amazingly helpful tutorials, I eventually got a hold of each one well enough to make my vision come alive.</p>
 <p>The first part was understanding the basics of how an Alexa Skill works.</p>
-<p>I first went to the<a href="https://developer.amazon.com/alexa/console/ask">Alexa Developer Console</a> and created a new skill (after creating an Amazon Developer account.)</p>
+<p>I first went to the <a href="https://developer.amazon.com/alexa/console/ask">Alexa Developer Console</a> and created a new skill (after creating an Amazon Developer account.)</p>
 <p>From there the task was to create a custom <em>interaction model.</em> This is the thing that dictates how you're supposed to say things to Alexa, and how she is supposed to say things back to you.</p>
 <p>The things you say (called <em>utterances</em>) activate certain <em>intents</em>. There are built-in intents, such as HelpIntent (activated by saying "Help") or CancelIntent (activated by saying "Never mind."). But you can also create your own custom intents. For example, one of the intents I built for this project was <b>AddReadInstanceIntent</b>, which was activated by saying one of several utterances along the lines of "Add {title} by {author} to my book database."<p>
-
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_interaction2.png" width="400" height="300">
+<p>An intent may require specific information from you in order to do its job. These are called <em>slots</em>, and are indicated in utterances by curly braces. Each slot has a type, which helps Amazon Alexa better understand what you mean to say. For example, I made the {title} slot of type "AMAZON.book", so that when I say "Nineteen Eighty-Four" in the place in the sentence denoted by {title}, Alexa has a better chance of knowing I mean the book by George Orwell, and not the two numbers 19 and 84.</p>
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_title_slot.png" width="400" height="700">
 
 
 
