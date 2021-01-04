@@ -30,11 +30,10 @@ I thus broke down the project into 3 parts:
 
 ## Part 1: MySQL Database
 <p>The first question was how to structure the data. There was a problem with using only one table, as I had been doing with the Excel sheet. It was simplest to have one row per book - it was a summary; sometimes I only wanted to know if I read a specific book at least once or not.</p>
-<p>But sometimes I also wanted to keep track of specific <em>readings</em> of a certain book: the date, the format, where I was, and so on. Trying to keep all this information stuffed into a single row was very clunky.</p>
+<p>But sometimes I also wanted to keep track of specific <em>readings</em> of a certain book: the date, the format, where I was, and so on. Trying to keep all this information stuffed into a single row was very clunky. It was easy to lose information this way.</p>
 
-<br>
 
-### Before:
+### Before - 1 table:
 
 <img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/old_excel_example1.png">
 <br>
@@ -95,6 +94,17 @@ Read instances table - low level view
 <p>The practical reason for putting my book database on the cloud was so that I could access it anywhere. But the main reason was simply to prove that I could do it. I wanted to gain experience using cloud services with a real project.</p>
 <p>I decided to use Amazon Web Services' Relational Database Service (RDS) because it was able to work with MySQL.</p>
 <p>After much googling and tutorial reading I got my database instance up and running. And after some more searching I was able to connect to it through the MySQL Workbench, create the tables, and insert all the data.</p>
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/aws_rds_screenshot1.png">
+<p>I now had a proper book database running on the cloud. I could access it from any device using MySQL commands.</p>
+<p>It was nice just to prove that I could do it, and now I had some valuable experience using AWS and SQL. However, it didn't make my life easier just yet. I still had to manually enter SQL commands whenever I finished a book or wanted to look up something. This was less convenient than simply entering values into a spreadsheet. But, with a little help from Amazon's Alexa Developer, I could make it so I wouldn't need to type in anything at all!</p>
+
+
+<br>
+
+## Part 3: Making the Alexa Skill
+
+<p>This part was by far the most work.</p>
+
 
 
 
