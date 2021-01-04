@@ -26,13 +26,25 @@ I thus broke down the project into 3 parts:
 2. Put the database up on AWS RDS
 3. Create the Alexa Skill 
 
+<br>
+
 ## Part 1: MySQL Database
 <p>The first question was how to structure the data. There was a problem with using only one table, as I had been doing with the Excel sheet. It was simplest to have one row per book - it was a summary; sometimes I only wanted to know if I read a specific book at least once or not.</p>
 <p>But sometimes I also wanted to keep track of specific <em>readings</em> of a certain book: the date, the format, where I was, and so on. Trying to keep all this information stuffed into a single row was very clunky.</p>
-<p>So I decided to make <b>two tables:</b> One to keep track of <b>books</b> and one to keep track of <b>read instances</b></p>
+
+<br>
+
+### Before:
+
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/old_excel_example1.png">
+<br>
+
+<p>So I decided to make <b>two tables:</b> One to keep track of <b>books</b> and one to keep track of <b>read instances:</b></p>
+
 ```
+
 CREATE TABLE books (
-	id INT NOT NULL AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     author VARCHAR(100) NOT NULL,
     first_read_year YEAR NOT NULL,
@@ -47,7 +59,7 @@ CREATE TABLE books (
     );
     
 CREATE TABLE read_instances (
-	id INT NOT NULL AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
     author VARCHAR(100) NOT NULL,
     read_year YEAR NOT NULL,
@@ -58,6 +70,50 @@ CREATE TABLE read_instances (
     PRIMARY KEY (id)
 	);
 ```
+
 <p>Then, after much pre-processing, I converted the old book list Excel sheet into a csv file and loaded it into my test database on my root local instance.</p>
-<p>I used MySQL workbench 8.0 for everything.</p>
+<p>I used MySQL workbench 8.0.22 for everything.</p>
+<p>Now I have two different tables perfectly suited for different purposes. One is a summary and one is a detailed account preserving all information.
+
+<br>
+
+### After:
+
+Books table - high level view
+
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/sql_example_books1.png">
+
+Read instances table - low level view
+
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/sql_example_readinstances1.png">
+
+<br>
+<br>
+
+## Part 2: Putting the database in the cloud
+
+<p>The practical reason for putting my book database on the cloud was so that I could access it anywhere. But the main reason was simply to prove that I could do it. I wanted to gain experience using cloud services with a real project.</p>
+<p>I decided to use Amazon Web Services' Relational Database Service (RDS) because it was able to work with MySQL.</p>
+<p>After much googling and tutorial reading I got my database instance up and running. And after some more searching I was able to connect to it through the MySQL Workbench, create the tables, and insert all the data.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
