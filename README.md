@@ -26,6 +26,8 @@ I thus broke down the project into 3 parts:
 2. Put the database up on AWS RDS
 3. Create the Alexa Skill 
 
+<br>
+
 ## Part 1: MySQL Database
 <p>The first question was how to structure the data. There was a problem with using only one table, as I had been doing with the Excel sheet. It was simplest to have one row per book - it was a summary; sometimes I only wanted to know if I read a specific book at least once or not.</p>
 <p>But sometimes I also wanted to keep track of specific <em>readings</em> of a certain book: the date, the format, where I was, and so on. Trying to keep all this information stuffed into a single row was very clunky.</p>
@@ -89,4 +91,29 @@ Read instances table - low level view
 <br>
 
 ## Part 2: Putting the database in the cloud
+
+<p>The practical reason for putting my book database on the cloud was so that I could access it anywhere. But the main reason was simply to prove that I could do it. I wanted to gain experience using cloud services with a real project.</p>
+<p>I decided to use Amazon Web Services' Relational Database Service (RDS) because it was able to work with MySQL.</p>
+<p>After much googling and tutorial reading I got my database instance up and running. And after some more searching I was able to connect to it through the MySQL Workbench, create the tables, and insert all the data.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
