@@ -179,8 +179,26 @@ class GetLastReadIntentHandler(AbstractRequestHandler):
 <p>These intent handler classes are where you put the backend logic to be carried out when you elicit an intent.</p>
 <p>In the above example, when you ask Alexa "What was the last book I read?" the utterance matches the predefined utterances for the <em>GetLastReadIntent</em>, and then the <em>GetLastReadIntentHandler</em> connects to the cloud database and carries out the SQL query. This query fetches the title and author of the last row from the read_instances table. Then the handler builds Alexa's response to include the title and author of the last book you read.</p>
 
-Another thing to mention at this point is that I gained my first exposure to Speech Synthesis Markup Language (SSML). It is a tag-based language for controlling speech synthesis applications. One of its many uses is to control a word's pronunciation. In the example code above, I used SSML to make sure Alexa pronounced the word "read" in the past tense (like "red", instead of "reed".) The tag `<w role='amazon:VBD'>` tells the speech program to interpret the word as a past participle. 
+Another thing to mention at this point is that I gained my first exposure to Speech Synthesis Markup Language (SSML). It is a tag-based language for controlling speech synthesis applications. One of its many uses is to control a word's pronunciation. In the example code above, I used SSML to make sure Alexa pronounced the word "read" in the past tense (like "red", instead of "reed".) The tag `<w role='amazon:VBD'>` tells the speech program to interpret the word as a past participle.
 
+<p>Finally, after many days of testing, debugging, and troubleshooting, I got everything to work. I can now ask Alexa to add or retrieve info from my handy booklist on the cloud. My life is now a little easier and my programming skills are a little better.</p>
+
+   -James Butcher, January 2021
+
+<br>
+
+---
+
+### Current list of skill capabilities (intents) as of January, 2021:
+
+Intent | Description
+---|---
+Get Last Read | Tells the title and author of the last book you read
+Get Number of Times Read | Tells how many times you read a specific book
+Last Time Read | Tells the month and year of the last time you read a specific book
+How Many Books Read During Year | Tells how many books you read during a specific year
+Add Read Instance | Add info about a book you just read - adds a row to *read_instances* table and updates *books* table
+Delete Last Read Instance | Deletes the last row of the *read_instances* table and updates *books* table
 
 
 
