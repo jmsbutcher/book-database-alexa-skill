@@ -178,7 +178,8 @@ class GetLastReadIntentHandler(AbstractRequestHandler):
 
 <p>These intent handler classes are where you put the backend logic to be carried out when you elicit an intent.</p>
 <p>In the above example, when you ask Alexa "What was the last book I read?" the utterance matches the predefined utterances for the <em>GetLastReadIntent</em>, and then the <em>GetLastReadIntentHandler</em> connects to the cloud database and carries out the SQL query. This query fetches the title and author of the last row from the read_instances table. Then the handler builds Alexa's response to include the title and author of the last book you read.</p>
-<p>Another thing to mention at this point is that I gained my first exposure to Speech Synthesis Markup Language (SSML). It is a tag-based language for controlling speech synthesis applications. One of its many uses is to control a word's pronunciation. In the example code above, I used SSML to make sure Alexa pronounced the word "read" in the past tense (like "red", instead of "reed".) The tag ` <w role='amazon:VBD'> ` tells the speech program to interpret the word as a past participle. 
+
+Another thing to mention at this point is that I gained my first exposure to Speech Synthesis Markup Language (SSML). It is a tag-based language for controlling speech synthesis applications. One of its many uses is to control a word's pronunciation. In the example code above, I used SSML to make sure Alexa pronounced the word "read" in the past tense (like "red", instead of "reed".) The tag `<w role='amazon:VBD'>` tells the speech program to interpret the word as a past participle. 
 
 
 
