@@ -105,17 +105,100 @@ Read instances table - low level view
 
 <p>This part was by far the most work. Each step had its own learning curve. But with lots of tinkering, testing, debugging, and amazingly helpful tutorials, I eventually got a hold of each one well enough to make my vision come alive.</p>
 <p>The first part was understanding the basics of how an Alexa Skill works.</p>
-<p>I first went to the<a href="https://developer.amazon.com/alexa/console/ask">Alexa Developer Console</a> and created a new skill (after creating an Amazon Developer account.)</p>
+<p>I first went to the <a href="https://developer.amazon.com/alexa/console/ask">Alexa Developer Console</a> and created a new skill (after creating an Amazon Developer account.)</p>
 <p>From there the task was to create a custom <em>interaction model.</em> This is the thing that dictates how you're supposed to say things to Alexa, and how she is supposed to say things back to you.</p>
 <p>The things you say (called <em>utterances</em>) activate certain <em>intents</em>. There are built-in intents, such as HelpIntent (activated by saying "Help") or CancelIntent (activated by saying "Never mind."). But you can also create your own custom intents. For example, one of the intents I built for this project was <b>AddReadInstanceIntent</b>, which was activated by saying one of several utterances along the lines of "Add {title} by {author} to my book database."<p>
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_interaction2.png" width="600" height="300">
+<p>An intent may require specific information from you in order to do its job. These are called <em>slots</em>, and are indicated in utterances by curly braces. Each slot has a type, which helps Amazon Alexa better understand what you mean to say. For example, I made the {title} slot of type <em>AMAZON.book</em>, so that when I say "Nineteen Eighty-Four" in the place in the sentence denoted by {title}, Alexa has a better chance of knowing I mean the book by George Orwell, and not the two numbers 19 and 84.</p>
+<img src="https://github.com/jmsbutcher/book-database-alexa-skill/blob/main/images/read_instance_intent_title_slot.png" width="600" height="800">
 
+<br>
 
+<p>Next, I had to write the code "behind the intents" -- the backend. In the Alexa Development Kit, this is called the lambda function. This is the code that Alexa carries out after eliciting an intent and all the information is provided.</p>
+<p>When you create a custom skill, you have the option of having a basic lambda function file set up for you, hosted on the cloud via AWS Lambda, either in Python or in Node.js, or you can provide your own endpoint and backend resources.</p>
+<p>I chose the Alexa-provided Python option. This was especially convenient since the Alexa Developer Console has a Code tab where you can edit the backend code and deploy it with one click.</p>
 
+<br>
 
+<p>At this point I needed to learn how to manage an SQL database through Python code. This involved using the mysql-connector-python package. These two YouTube videos were excellent guides for me:</p>
+	
+- <a href="https://www.youtube.com/watch?v=3vsC05rxZ8c&list=PLwGZ7X2gMChQbGLrYP57YW2S_lrknkw1_&index=45">Tech With Tim  -  Python MySQL Tutorial - Setup & Basic Queries (w/ MySQL Connector)</a>
+	
+- <a href="https://www.youtube.com/watch?v=RerDL93sBdY&list=PLwGZ7X2gMChQbGLrYP57YW2S_lrknkw1_&index=46">KGP Talkie  -  AWS RDS with Python Tutorial | How Connect AWS RDS with Python using PyMySQL</a>
+	
+<p>I learned the ropes of using mysql.connector by playing around and testing on Spyder (my favorite Python IDE) before trying it out in the Alexa lambda function.</p>
+<p>It basically came down to making a connection to the database, defining a <em>cursor</em>, and using the cursor to execute SQL queries and fetch the results.</p>
 
+#### Example:
 
+```
+import mysql.connector
 
+mydb = mysql.connector.connect(
+            host="awsdbtest1.********.us-east-1.rds.amazonaws.com",
+            port=3306,
+            user="*******",
+            password="*****"
+            )
 
+cursor = mydb.cursor()
+        
+cursor.execute("USE aws_sql_test")
+cursor.execute("SELECT title, author FROM read_instances WHERE id = (SELECT MAX(id) FROM read_instances)")
+
+title, author = cursor.fetchone()
+
+speak_output = "The last book you read was " + title + " by " + author
+print(speak_output)
+```
+
+<p>Once I got pieces of test code to work, I copied them into the Alexa skill lambda function under their corresponding intent handler class:</p>
+
+```
+class GetLastReadIntentHandler(AbstractRequestHandler):
+    """ [My own custom] Handler for Get Last Read Intent."""
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("GetLastReadIntent")(handler_input)
+
+    def handle(self, handler_input):
+        mydb, cursor = connect_to_database()
+        
+        cursor.execute("SELECT title, author FROM read_instances WHERE id = (SELECT MAX(id) FROM read_instances)")
+        title, author = cursor.fetchone()
+        
+        speak_output = "<speak>The last book you <w role='amazon:VBD'>read</w> was {} by {}.</speak>".format(title, author)
+            
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask("anything else?")
+                .response
+        )
+```
+
+<p>These intent handler classes are where you put the backend logic to be carried out when you elicit an intent.</p>
+<p>In the above example, when you ask Alexa "What was the last book I read?" the utterance matches the predefined utterances for the <em>GetLastReadIntent</em>, and then the <em>GetLastReadIntentHandler</em> connects to the cloud database and carries out the SQL query. This query fetches the title and author of the last row from the read_instances table. Then the handler builds Alexa's response to include the title and author of the last book you read.</p>
+
+Another thing to mention at this point is that I gained my first exposure to Speech Synthesis Markup Language (SSML). It is a tag-based language for controlling speech synthesis applications. One of its many uses is to control a word's pronunciation. In the example code above, I used SSML to make sure Alexa pronounced the word "read" in the past tense (like "red", instead of "reed".) The tag `<w role='amazon:VBD'>` tells the speech program to interpret the word as a past participle.
+
+<p>Finally, after many days of testing, debugging, and troubleshooting, I got everything to work. I can now ask Alexa to add or retrieve info from my handy booklist on the cloud. My life is now a little easier and my programming skills are a little better.</p>
+
+   -James Butcher, January 2021
+
+<br>
+
+---
+
+### Current list of skill capabilities (intents) as of January, 2021:
+
+Intent | Description
+---|---
+Get Last Read | Tells the title and author of the last book you read
+Get Number of Times Read | Tells how many times you read a specific book
+Last Time Read | Tells the month and year of the last time you read a specific book
+How Many Books Read During Year | Tells how many books you read during a specific year
+Add Read Instance | Add info about a book you just read - adds a row to *read_instances* table and updates *books* table
+Delete Last Read Instance | Deletes the last row of the *read_instances* table and updates *books* table
 
 
 
