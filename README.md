@@ -128,7 +128,9 @@ Read instances table - low level view
 	
 <p>I learned the ropes of using mysql.connector by playing around and testing on Spyder (my favorite Python IDE) before trying it out in the Alexa lambda function.</p>
 <p>It basically came down to making a connection to the database, defining a <em>cursor</em>, and using the cursor to execute SQL queries and fetch the results.</p>
+
 #### Example:
+
 ```
 import mysql.connector
 
@@ -150,8 +152,33 @@ speak_output = "The last book you read was " + title + " by " + author
 print(speak_output)
 ```
 
-<p></p>
+<p>Once I got pieces of test code to work, I copied them into the Alexa skill lambda function under their corresponding intent handler class:</p>
 
+```
+class GetLastReadIntentHandler(AbstractRequestHandler):
+    """ [My own custom] Handler for Get Last Read Intent."""
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("GetLastReadIntent")(handler_input)
+
+    def handle(self, handler_input):
+        mydb, cursor = connect_to_database()
+        
+        cursor.execute("SELECT title, author FROM read_instances WHERE id = (SELECT MAX(id) FROM read_instances)")
+        title, author = cursor.fetchone()
+        
+        speak_output = "<speak>The last book you <w role='amazon:VBD'>read</w> was {} by {}.</speak>".format(title, author)
+            
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask("anything else?")
+                .response
+        )
+```
+
+<p>These intent handler classes are where you put the backend logic to be carried out when you elicit an intent.</p>
+<p>In the above example, when you ask Alexa "What was the last book I read?" the utterance matches the predefined utterances for the <em>GetLastReadIntent</em>, and then the <em>GetLastReadIntentHandler</em> connects to the cloud database and carries out the SQL query. This query fetches the title and author of the last row from the read_instances table. Then the handler builds Alexa's response to include the title and author of the last book you read.</p>
+<p>Another thing to mention at this point is that I gained my first exposure to Speech Synthesis Markup Language (SSML). It is a tag-based language for controlling speech synthesis applications. One of its many uses is to control a word's pronunciation. In the example code above, I used SSML to make sure Alexa pronounced the word "read" in the past tense (like "red", instead of "reed".) The tag ` <w role='amazon:VBD'> ` tells the speech program to interpret the word as a past participle. 
 
 
 
