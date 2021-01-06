@@ -120,13 +120,37 @@ Read instances table - low level view
 
 <br>
 
-<p>At this point I needed to learn how to manage an SQL database through Python code. These two YouTube videos were excellent guides for me:<p>
+<p>At this point I needed to learn how to manage an SQL database through Python code. This involved using the mysql-connector-python package. These two YouTube videos were excellent guides for me:</p>
+	
 - <a href="https://www.youtube.com/watch?v=3vsC05rxZ8c&list=PLwGZ7X2gMChQbGLrYP57YW2S_lrknkw1_&index=45">Tech With Tim  -  Python MySQL Tutorial - Setup & Basic Queries (w/ MySQL Connector)</a>
+	
 - <a href="https://www.youtube.com/watch?v=RerDL93sBdY&list=PLwGZ7X2gMChQbGLrYP57YW2S_lrknkw1_&index=46">KGP Talkie  -  AWS RDS with Python Tutorial | How Connect AWS RDS with Python using PyMySQL</a>
 	
-<p>I learned the ropes of using   by playing around and testing on Spyder (my favorite Python IDE) before trying it out in the Alexa lambda function.</p>
+<p>I learned the ropes of using mysql.connector by playing around and testing on Spyder (my favorite Python IDE) before trying it out in the Alexa lambda function.</p>
+<p>It basically came down to making a connection to the database, defining a <em>cursor</em>, and using the cursor to execute SQL queries and fetch the results.</p>
+#### Example:
+```
+import mysql.connector
 
+mydb = mysql.connector.connect(
+            host="awsdbtest1.********.us-east-1.rds.amazonaws.com",
+            port=3306,
+            user="*******",
+            password="*****"
+            )
 
+cursor = mydb.cursor()
+        
+cursor.execute("USE aws_sql_test")
+cursor.execute("SELECT title, author FROM read_instances WHERE id = (SELECT MAX(id) FROM read_instances)")
+
+title, author = cursor.fetchone()
+
+speak_output = "The last book you read was " + title + " by " + author
+print(speak_output)
+```
+
+<p></p>
 
 
 
